@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//  compare two JSON objects with the same properties without considering the order
+let obj1 = { name: "person 1", age: 5 };
+let obj2 = { age: "5", name: "Person 1" };
+
+function compareJSON(obj1, obj2) {
+    const sortedObj1 = sortObject(obj1);
+    const sortedObj2 = sortObject(obj2);
+    return JSON.stringify(sortedObj1) === JSON.stringify(sortedObj2);
+}
+
+function sortObject(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map(sortObject);
+    }
+
+    const sortedKeys = Object.keys(obj).sort();
+    const result = {};
+    sortedKeys.forEach(key => {
+        result[key] = sortObject(obj[key]);
+    });
+    return result;
+}
+console.log(compareJSON(obj1, obj2)); 
+
+// --------------------------------------------------------------------------------------
+       
+        var allData = fetch("https://restcountries.com/v3.1/all")
+        .then((allData) => allData.json())
+        .then((data) => display(data))
+        .catch((error) => console.log(error))
+
+        function display(data) {
+            data.forEach(element => {
+ // 3 display continue,region,subregion,population
+                console.log("continents : " + element.continents);
+                console.log("region : " + element.region);
+                console.log("subregion : " + element.subregion);
+                console.log("population : " + element.population);
+
+ // 2 display flags for all countries
+                console.log(element.flags);
+            });
+            
+        }
+    </script>
+</body>
+</html>
